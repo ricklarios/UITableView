@@ -19,6 +19,8 @@ class MyCustomTableViewCell: UITableViewCell {
 		// Podemos customizar sus propiedades (tanto celda como elemntos)
 		myFirstLabel.font = UIFont.boldSystemFont(ofSize: 20)
 		myFirstLabel.textColor = .blue
+		
+		mySecondLabel.numberOfLines = 0 // Le decimos que tenga infinitas lineas si es necesario (adaptado al contenido, un string en este caso)
 		backgroundColor = .gray
     }
 

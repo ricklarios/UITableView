@@ -52,7 +52,7 @@ extension ViewController: UITableViewDataSource {
 		if indexPath.section == 0 {
 			return 50
 		}
-		return 150
+		return UITableView.automaticDimension // Le decimos que se ajuste al contenido (tendremos que tener cuidado en fijar bien las constrains)
 		
 	}
 	
@@ -74,12 +74,16 @@ extension ViewController: UITableViewDataSource {
 		} // Si estamos en la sección 2:
 		let cell = tableView.dequeueReusableCell(withIdentifier: "mycustomcell", for: indexPath) as? MyCustomTableViewCell
 			// Podemos acceder a las propiedades custom que le hemos dado (2x Label y una imagen)
-			cell?.myFirstLabel.text = String(indexPath.row + 1) // Nos muestra el nº de celda en el Label 1
-			cell!.mySecondLabel.text = myCountries[indexPath.row] // Nos muestra el nombre del país en Label 2
+		cell?.myFirstLabel.text = String(indexPath.row + 1) // Nos muestra el nº de celda en el Label 1
+		cell!.mySecondLabel.text = myCountries[indexPath.row] // Nos muestra el nombre del país en Label 2
 				
-				
-			return cell!
+		if indexPath.row == 2 {
+			cell!.mySecondLabel.text = "alñsjdñalsd añsld ñalskdáosdì `wfi íouxcljsid`cç xck´XJCID ÁSZ´SLCVÑL"
+			
 		}
+		
+		return cell!
+	}
 		
 }
 		
