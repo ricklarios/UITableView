@@ -20,6 +20,9 @@ class ViewController: UIViewController {
 		tableView.dataSource = self
 		tableView.delegate = self
 		tableView.tableFooterView = UIView() // Así eliminamos el resto de celdas vacías que nos genera por defecto
+		
+		// Indicamos que alguna de nuestras celdas podría ser del tipo MyCustomTableViewCell:
+		tableView.register(UINib(nibName: "MyCustomTableViewCell", bundle: nil), forCellReuseIdentifier: "mycustomcell")
 	}
 
 
@@ -40,24 +43,48 @@ extension ViewController: UITableViewDataSource {
 	//	return 3 // Le decimos cuantas secciones tiene la tabla
 	// }
 	
+	func numberOfSections(in tableView: UITableView) -> Int {
+		return 2 // Indicamos que tenemos 2 secciones
+	}
+	
+	// Por defecto las celdas tienen una altura fija. Para que la altura de la celda cambie según la sección y veamos toda la info:
+	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+		if indexPath.section == 0 {
+			return 50
+		}
+		return 150
+		
+	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		
-		var cell = tableView.dequeueReusableCell(withIdentifier: "myCell") // Identificamos la tabla reusable
-		if cell == nil {
-			// Creamos las celdas y todas sus propiedades iniciales
-			cell = UITableViewCell(style: .default, reuseIdentifier: "myCell") // Usamos reuseIdentifier para identificar la celda a reusar
-			cell?.backgroundColor = .gray
-			cell?.textLabel?.font = UIFont.systemFont(ofSize: 20)
-			// cell?.accessoryType = .checkmark
-			cell?.accessoryType = .disclosureIndicator // Añade a la dcha una flecha para dar funcionalidad
+		if indexPath.section == 0 {
+			// Si estamos en la section 1 pintamos las celdas iniciales:
+			var cell = tableView.dequeueReusableCell(withIdentifier: "myCell") // Identificamos la tabla como reusable
+			if cell == nil {
+				// Creamos las celdas y todas sus propiedades iniciales
+				cell = UITableViewCell(style: .default, reuseIdentifier: "myCell") // Usamos reuseIdentifier para identificar la celda a reusar
+				cell?.backgroundColor = .gray
+				cell?.textLabel?.font = UIFont.systemFont(ofSize: 20)
+				// cell?.accessoryType = .checkmark
+				cell?.accessoryType = .disclosureIndicator // Añade a la dcha una flecha para dar funcionalidad
+			}
+				cell!.textLabel?.text = myCountries[indexPath.row]
+				return cell!
+		} // Si estamos en la sección 2:
+		let cell = tableView.dequeueReusableCell(withIdentifier: "mycustomcell", for: indexPath) as? MyCustomTableViewCell
+			// Podemos acceder a las propiedades custom que le hemos dado (2x Label y una imagen)
+			cell?.myFirstLabel.text = String(indexPath.row + 1) // Nos muestra el nº de celda en el Label 1
+			cell!.mySecondLabel.text = myCountries[indexPath.row] // Nos muestra el nombre del país en Label 2
+				
+				
+			return cell!
 		}
 		
-		cell!.textLabel?.text = myCountries[indexPath.row]
-		return cell!
-	}
-
 }
+		
+
+
 
 extension ViewController: UITableViewDelegate {
 	
