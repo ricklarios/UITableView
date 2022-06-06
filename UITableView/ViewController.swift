@@ -18,6 +18,7 @@ class ViewController: UIViewController {
 		
 		// Protocolo delegado de las Table
 		tableView.dataSource = self
+		tableView.tableFooterView = UIView() // Así eliminamos el resto de celdas vacías que nos genera por defecto
 	}
 
 
