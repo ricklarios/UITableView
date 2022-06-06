@@ -19,7 +19,7 @@ class ViewController: UIViewController {
 		// Protocolo delegado de las Table
 		tableView.dataSource = self
 		tableView.delegate = self
-		tableView.tableFooterView = UIView() // Así eliminamos el resto de celdas vacías que nos genera por defecto
+		
 		
 		// Indicamos que alguna de nuestras celdas podría ser del tipo MyCustomTableViewCell:
 		tableView.register(UINib(nibName: "MyCustomTableViewCell", bundle: nil), forCellReuseIdentifier: "mycustomcell")
@@ -29,6 +29,30 @@ class ViewController: UIViewController {
 }
 
 extension ViewController: UITableViewDataSource {
+	
+	// Contenido del HEADER
+	func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+		if section == 0 {
+		return "Celdas sencillas"
+		}
+		return "Celdas custom"
+	}
+	
+	// Altura del HEADER
+	func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+		return 100
+	}
+	
+	// Podemos crear una cabecera más compleja retornando una vista:
+	// func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+	// }
+	
+	func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+		if section == 0 {
+		return "Footer sencillo"
+		}
+		return "Footer custom"
+	}
 	
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
